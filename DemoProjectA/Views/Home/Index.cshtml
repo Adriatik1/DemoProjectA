@@ -1,0 +1,23 @@
+﻿@model UserModel
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome @Model.FirstName @Model.LastName</h1>
+
+    @if (Model.Age >= 18)
+    {
+        <span>I rritur</span>
+    }
+    else
+    {
+        <span>I mitur</span>
+    }
+</div>
+
+<div class="text-center">
+    <span> @Model.Company!.Name </span>, 
+    <span> @Model.Company!.Address </span>
+</div>
