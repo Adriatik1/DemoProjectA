@@ -1,7 +1,17 @@
+using Infrastructure.Data;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+var connectionString = builder.Configuration.GetSection("DbConfig:ConnectionString").Get<string>();
+
+builder.Services.AddDbContext<DemoDbContext>(options =>
+{
+    options.UseSqlServer(connectionString);
+});
 
 var app = builder.Build();
 
@@ -19,6 +29,10 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.UseAuthorization();
+
+var scope = app.Services.CreateScope();
+var dbContext = scope.ServiceProvider.GetRequiredService<DemoDbContext>();
+dbContext.Database.Migrate();
 
 app.MapControllerRoute(
     name: "default",
