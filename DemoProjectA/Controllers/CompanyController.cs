@@ -8,11 +8,7 @@ namespace DemoProjectA.Controllers
     {
         public IActionResult Index()
         {
-            var returnModel = new CompanyModel()
-            {
-                Name = "Comitas AG",
-                Address = "Musine Kokalari 10",
-                Employees = new List<EmployeeModel>
+            var employees = new List<EmployeeModel>
                 {
                     new EmployeeModel()
                     {
@@ -38,8 +34,16 @@ namespace DemoProjectA.Controllers
                         Salary = 90000,
                         JoinedDate = DateTime.Now.AddYears(-5),
                     }
-                }
+                };
+
+            var returnModel = new CompanyModel()
+            {
+                Name = "Comitas AG",
+                Address = "Musine Kokalari 10",
+                Employees = employees
             };
+
+            var filteredEmployees = employees.Where(x => x.Salary > 5).Any();
 
             return View(returnModel);
         }
