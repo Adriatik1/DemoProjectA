@@ -9,5 +9,6 @@ namespace Domain.Constants
     public static class DbPropertyLengths
     {
         public readonly static int NameLength = 50;
+        public readonly static int ShortDescriptionLength = 300;
     }
 }
