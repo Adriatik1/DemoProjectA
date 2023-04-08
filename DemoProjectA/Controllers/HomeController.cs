@@ -1,5 +1,6 @@
 ﻿using DemoProjectA.Models;
 using DemoProjectA.Models.Company;
+using Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
@@ -38,6 +39,8 @@ namespace DemoProjectA.Controllers
 
         public IActionResult Privacy()
         {
+            var user = new UserEntity();
+
             return View();
         }
 

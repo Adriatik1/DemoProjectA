@@ -13,5 +13,10 @@ namespace Domain.Entities.Abstracions
         {
             Id = Guid.NewGuid();    
         }
+
+        public BaseEntity(Guid existingId)
+        {
+            Id = existingId;
+        }
     }
 }

@@ -36,6 +36,12 @@ namespace Infrastructure.Data
                 .Property(x => x.UserEmail)
                 .HasMaxLength(DbConstants.EmailLength);
 
+            builder.Entity<UserEntity>()
+                .HasOne(x => x.Role)
+                .WithMany()
+                .HasForeignKey(x => x.RoleId)
+                .OnDelete(DeleteBehavior.ClientSetNull);
+
             builder.Entity<RoleEntity>()
                .HasKey(x => x.Id);
 
