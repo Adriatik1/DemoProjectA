@@ -8,6 +8,6 @@ namespace Domain.Models.Abstractions
 {
     public class IdModel
     {
-        public Guid Id { get; set; }
+        public Guid? Id { get; set; }
     }
 }

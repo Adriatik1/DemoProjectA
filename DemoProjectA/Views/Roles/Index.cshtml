@@ -1,4 +1,7 @@
-﻿@*
+﻿@using Domain.Models
+@model IEnumerable<RoleModel>
+
+@*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
@@ -7,10 +10,39 @@
 <div class="row">
     <h1>Roles</h1>
     <div>
-        <a class="btn primary-btn" asp-controller="Roles" asp-action="CreateNewRole">
+        <a class="btn btn-primary" asp-controller="Roles" asp-action="UpSertRole">
             Create new Roles
         </a>
+
+
+        <table class="table mt-5">
+            <thead>
+                <tr>
+                    <th scope="col">Role Name</th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var role in Model)
+                {
+                    <tr>
+                        <th>@role.Name</th>
+                        <td>
+                            <a asp-action="UpSertRole" asp-controller="Roles" asp-route-roleId="@role.Id">
+                                Edit
+                            </a>
+                            |
+                            <a asp-action="Delete" asp-controller="Roles"
+                           asp-route-roleId="@role.Id">
+                                Delete
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
     </div>
+
 
 
 </div>
