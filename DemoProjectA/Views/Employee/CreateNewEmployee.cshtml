@@ -1,0 +1,65 @@
+﻿@using Domain.Models.Employees
+@model EmployeeModel
+
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+@if (!string.IsNullOrEmpty(ViewBag.Message))
+{
+    <span>@ViewBag.Message</span>
+}
+<div>
+</div>
+
+<form asp-action="CreateNewEmployeePOST"
+      asp-controller="Employee" method="post">
+
+    <div class="form-group row mt-5">
+        <label asp-for="FirstName" class="col-sm-2 col-form-label">First Name</label>
+        <div class="col-6">
+            <input type="text" class="form-control" asp-for="FirstName">
+        </div>
+    </div>
+
+    <div class="form-group row mt-5">
+        <label asp-for="LastName" class="col-sm-2 col-form-label">Last Name</label>
+        <div class="col-6">
+            <input type="text" class="form-control" asp-for="LastName">
+        </div>
+    </div>
+
+    <div class="form-group row mt-5">
+        <label asp-for="Email" class="col-sm-2 col-form-label">Email</label>
+        <div class="col-6">
+            <input type="text" class="form-control" asp-for="Email">
+        </div>
+    </div>
+
+    <div class="form-group row mt-5">
+        <label asp-for="PhoneNumber" class="col-sm-2 col-form-label">Phone Number</label>
+        <div class="col-6">
+            <input type="text" class="form-control" asp-for="PhoneNumber">
+        </div>
+    </div>
+
+    <div class="form-group row mt-5">
+        <label asp-for="RoleId" class="col-sm-2 col-form-label">Role</label>
+        <div class="col-6">
+            <select name="RoleId" asp-for="RoleId" class="form-control" asp-items="@ViewBag.Roles"></select>
+        </div>
+    </div>
+
+
+    <div class="form-group row mt-5">
+        <label asp-for="DateOfBirth" class="col-sm-2 col-form-label">Date of birth</label>
+        <div class="col-6">
+            <input type="date" class="form-control-plaintext" asp-for="DateOfBirth">
+        </div>
+    </div>
+
+    <input type="submit" class="btn btn-primary" value="Submit" />
+
+</form>

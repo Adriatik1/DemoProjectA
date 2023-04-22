@@ -1,3 +1,4 @@
+using Domain.Entities;
 using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 
@@ -26,6 +27,22 @@ if (!app.Environment.IsDevelopment())
 var scope = app.Services.CreateScope();
 var dbContext = scope.ServiceProvider.GetRequiredService<DemoDbContext>();
 dbContext.Database.Migrate();
+
+if (!dbContext.Roles.Any())
+{
+    string[] roleNames = new string[] { "Admin", "Moderator", "Sales", "Employee" };
+
+    foreach(var role in roleNames)
+    {
+        dbContext.Roles.Add(new RoleEntity
+        {
+            RoleName = role
+        });
+    }
+
+    dbContext.SaveChanges();
+}
+
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();

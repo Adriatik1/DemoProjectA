@@ -1,4 +1,4 @@
-﻿using DemoProjectA.Models.Employee;
+﻿using Domain.Models.Employees;
 
 namespace DemoProjectA.Models.Company
 {

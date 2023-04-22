@@ -1,5 +1,5 @@
 ﻿using DemoProjectA.Models.Company;
-using DemoProjectA.Models.Employee;
+using Domain.Models.Employees;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DemoProjectA.Controllers
@@ -15,7 +15,7 @@ namespace DemoProjectA.Controllers
                         FirstName = "Adriatik",
                         LastName = "Ademi",
                         Position = "Head of dev",
-                        Salary = 10,
+                        //Salary = 10,
                         JoinedDate = DateTime.Now.AddYears(-1),
                     },
                     new EmployeeModel()
@@ -23,7 +23,7 @@ namespace DemoProjectA.Controllers
                         FirstName = "Muharrem",
                         LastName = "Demiri",
                         Position = "Tech lead",
-                        Salary = 30000,
+                        //Salary = 30000,
                          JoinedDate = DateTime.Now.AddMonths(-16),
                     },
                     new EmployeeModel()
@@ -31,7 +31,7 @@ namespace DemoProjectA.Controllers
                         FirstName = "Njomza",
                         LastName = "Shatrolli",
                         Position = "Tech lead",
-                        Salary = 90000,
+                        //Salary = 90000,
                         JoinedDate = DateTime.Now.AddYears(-5),
                     }
                 };
@@ -40,10 +40,10 @@ namespace DemoProjectA.Controllers
             {
                 Name = "Comitas AG",
                 Address = "Musine Kokalari 10",
-                Employees = employees
+                //Employees = employees
             };
 
-            var filteredEmployees = employees.Where(x => x.Salary > 5).Any();
+            //var filteredEmployees = employees.Where(x => x.Salary > 5).Any();
 
             return View(returnModel);
         }
