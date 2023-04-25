@@ -2,6 +2,7 @@
 using Domain.Models;
 using Infrastructure.Data;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace DemoProjectA.Controllers
 {
@@ -15,28 +16,126 @@ namespace DemoProjectA.Controllers
         }
         public IActionResult Index()
         {
-            return View();
-        }
-
-        public IActionResult CreateProduct()
-        {
-            return View();
-        }
-
-        public IActionResult CreateNewProduct(ProductModel model)
-        {
-            _demoDbContext.Products.Add(new ProductEntity
+            if (ViewBag.Message == null)
             {
-                Name = model.Name,
-                CompanyOrigin = model.CompanyOrigin,
-                Description = model.Description,
-                Stock = model.Stock,
-                UnitId = Guid.Parse("b24348fb-0724-4681-95b6-215659debb82")
-            });
+                ViewBag.Message = "";
+            }
 
-            _demoDbContext.SaveChanges();
+            var products = _demoDbContext.Products
+                .Select(x => new ProductModel
+                {
+                    Id = x.Id,
+                    Name = x.Name,
+                    CompanyOrigin = x.CompanyOrigin,
+                    Stock = x.Stock,
+                    Description = x.Description,
+                    UnitId = x.UnitId,
+                    UnitName = x.Unit!.Name
+                }).ToList();
 
-            return View();
+            return View(products);
+        }
+
+        public IActionResult CreateOrEditProduct(Guid? id)
+        {
+            ViewBag.Message = "";
+            ViewBag.Units = _demoDbContext.Units
+                .Select(x => new SelectListItem
+                {
+                    Value = x.Id.ToString(),
+                    Text = x.Name
+                })
+                .ToList();
+
+            var model = new ProductModel();
+
+            if (id != null && id != Guid.Empty)
+            {
+                var product = _demoDbContext.Products
+                    .Where(x => x.Id == id)
+                    .SingleOrDefault();
+
+                if (product == null)
+                {
+                    ViewBag.Message = "Product not found!";
+                }
+                else
+                {
+                    model.Id = product.Id;
+                    model.Name = product.Name;
+                    model.CompanyOrigin = product.CompanyOrigin;
+                    model.Stock = product.Stock;
+                    model.Description = product.Description;
+                    model.UnitId = product.UnitId;
+                }
+            }
+
+            return View(model);
+        }
+
+        public IActionResult DeleteProduct(Guid id)
+        {
+            var product = _demoDbContext.Products
+                   .Where(x => x.Id == id)
+                   .SingleOrDefault();
+
+            if (product == null)
+            {
+                ViewBag.Message = "Product not found!";
+            } 
+            else
+            {
+                _demoDbContext.Products.Remove(product);
+                _demoDbContext.SaveChanges();
+            }
+
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public IActionResult CreateOrEditProductPOST(ProductModel model)
+        {
+            if (model.Id != Guid.Empty)
+            {
+                var product = _demoDbContext.Products
+                   .Where(x => x.Id == model.Id)
+                   .SingleOrDefault();
+
+                if (product == null)
+                {
+                    ViewBag.Message = "Product not found!";
+                }
+                else
+                {
+                    product.Id = model.Id;
+                    product.Name = model.Name;
+                    product.CompanyOrigin = model.CompanyOrigin;
+                    product.Stock = model.Stock;
+                    product.Description = model.Description;
+                    product.UnitId = model.UnitId;
+
+                    ViewBag.Message = $"Product {product.Name} updated successfully";
+
+                    _demoDbContext.SaveChanges();
+                }
+            }
+            else
+            {
+                _demoDbContext.Products.Add(new ProductEntity
+                {
+                    Name = model.Name,
+                    CompanyOrigin = model.CompanyOrigin,
+                    Description = model.Description,
+                    Stock = model.Stock,
+                    UnitId = model.UnitId
+                });
+
+                _demoDbContext.SaveChanges();
+
+                ViewBag.Message = $"Product {model.Name} added successfully";
+            }
+
+            return RedirectToAction("Index");
         }
     }
 }

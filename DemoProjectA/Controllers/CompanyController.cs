@@ -35,10 +35,6 @@ namespace DemoProjectA.Controllers
                         JoinedDate = DateTime.Now.AddYears(-5),
                     } };
 
-            var filteredEmployees = employees
-                .Where(x => x.Salary < 10)
-                .Single();
-
             var returnModel = new CompanyModel()
             {
                 Name = "Comitas AG",
